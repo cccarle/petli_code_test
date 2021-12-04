@@ -10,6 +10,36 @@ class ListItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    displayFullScreenImage() => showGeneralDialog(
+          context: context,
+          barrierColor: Colors.black.withOpacity(0.6),
+          barrierDismissible: true,
+          barrierLabel: 'Dialog',
+          transitionDuration: Duration(
+            milliseconds: 400,
+          ),
+          pageBuilder: (_, __, ___) {
+            return GestureDetector(
+              onTap: () => Navigator.pop(context),
+              child: SizedBox.expand(
+                child: Column(
+                  children: <Widget>[
+                    const SizedBox(
+                      height: 39,
+                    ),
+                    Expanded(
+                      flex: 5,
+                      child: SizedBox.expand(
+                        child: Image.network(photo.url),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+
     renderCircleAvatar() => Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -26,7 +56,7 @@ class ListItemCard extends StatelessWidget {
         );
 
     renderImagePreview() => GestureDetector(
-          onTap: () => print('open modal'),
+          onTap: () => displayFullScreenImage(),
           child: Image.network(
             photo.url,
             fit: BoxFit.cover,
@@ -35,11 +65,14 @@ class ListItemCard extends StatelessWidget {
 
     renderTitle() => Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Text(photo.title),
+          child: Text(
+            photo.title,
+            style: TextStyle(fontWeight: FontWeight.w400),
+          ),
         );
 
     renderLikeIcon() => Padding(
-          padding: const EdgeInsets.only(left: 10, bottom: 10),
+          padding: const EdgeInsets.only(left: 10, top: 10),
           child: Icon(Icons.favorite),
         );
 
@@ -52,8 +85,8 @@ class ListItemCard extends StatelessWidget {
           children: [
             renderCircleAvatar(),
             renderImagePreview(),
-            renderTitle(),
             renderLikeIcon(),
+            renderTitle(),
           ],
         ),
       ),

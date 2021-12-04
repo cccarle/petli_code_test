@@ -3,6 +3,7 @@ import 'package:petli_code/consts/constants.dart';
 import 'package:petli_code/models/photo.dart';
 import 'package:petli_code/services/api.dart';
 import 'package:petli_code/widgets/list_item_card.dart';
+import 'package:petli_code/widgets/on_error.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -27,7 +28,8 @@ class _DashboardState extends State<Dashboard> {
 
     if (res['succes']) {
       setState(() {
-        photoList = res['body'].map<Photo>((e) => Photo.fromJson(e)).toList();
+        photoList =
+            res['body'].map<Photo>((photo) => Photo.fromJson(photo)).toList();
         hasLoadedData = true;
       });
     }
@@ -54,8 +56,9 @@ class _DashboardState extends State<Dashboard> {
                       itemBuilder: (context, index) =>
                           ListItemCard(photoList[index]),
                     )
-                  : Center(
-                      child: Text(error),
+                  : OnError(
+                      error,
+                      callback: fetchPhotos,
                     ),
         ),
       ),

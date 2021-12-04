@@ -1,6 +1,7 @@
 class Photo {
   final int albumId, id;
   final String title, url, thumbnailUrl;
+  final bool isFavorite = false;
 
   Photo({
     required this.albumId,

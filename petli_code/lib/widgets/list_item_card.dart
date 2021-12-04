@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:petli_code/models/photo.dart';
 
 class ListItemCard extends StatelessWidget {
+  ListItemCard(
+    this.photo,
+  );
+
+  final Photo photo;
+
   @override
   Widget build(BuildContext context) {
     renderCircleAvatar() => Padding(
@@ -11,8 +18,7 @@ class ListItemCard extends StatelessWidget {
                 radius: 10,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(45),
-                  child:
-                      Image.network('https://via.placeholder.com/600/92c952'),
+                  child: Image.network(photo.thumbnailUrl),
                 ),
               ),
             ],
@@ -22,14 +28,14 @@ class ListItemCard extends StatelessWidget {
     renderImagePreview() => GestureDetector(
           onTap: () => print('open modal'),
           child: Image.network(
-            'https://via.placeholder.com/600/92c952',
+            photo.url,
             fit: BoxFit.cover,
           ),
         );
 
     renderTitle() => Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Text('Some text'),
+          child: Text(photo.title),
         );
 
     renderLikeIcon() => Padding(

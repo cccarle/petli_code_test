@@ -27,6 +27,20 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
   }
 
+/* 
+Fetch all stored photo IDs that has been liked.
+Used in Photo-model to decided if a photo has been liked or not.
+
+Preferable this is handled by backend.
+ */
+
+  getStoredLikes() async {
+    dynamic cachedLikeIds =
+        await SharedPrefs().getStringValue(SharedPrefs.CACHED_LIKE_IDS) ?? "[]";
+
+    Constants.likedPhotos = json.decode(cachedLikeIds);
+  }
+
   fetchPhotos() async {
     dynamic res = await Api().httpGet(Constants.photosUrl);
 
@@ -48,22 +62,6 @@ class _DashboardState extends State<Dashboard> {
         hasLoadedData = true;
       });
     }
-  }
-
-/* 
-Fetch all stored photo IDs that has been liked.
-Used in Photo-model to decided if a photo has been liked or not.
-
-Preferable this is handled by backend.
- */
-
-  getStoredLikes() async {
-    dynamic cachedLikeIds =
-        await SharedPrefs().getStringValue(SharedPrefs.CACHED_LIKE_IDS) ?? "[]";
-
-    dynamic listOfLikedPhotoIds = json.decode(cachedLikeIds);
-
-    Constants.likedPhotos = listOfLikedPhotoIds;
   }
 
   @override

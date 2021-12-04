@@ -9,7 +9,9 @@ class Api {
   }) async {
     http.Response res = await http.get(Uri.parse(url));
 
-// some mock of a backend response
+/* 
+Mock of a backend response with msg.
+ */
 
     if (res.statusCode == 200) {
       return {

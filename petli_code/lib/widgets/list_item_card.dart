@@ -77,8 +77,8 @@ class ListItemCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10, top: 10),
             child: ValueListenableBuilder(
               valueListenable: photo.isLiked,
-              builder: (context, bool isFavorited, child) => Icon(
-                isFavorited ? Icons.favorite : Icons.favorite_border_rounded,
+              builder: (context, bool isLiked, child) => Icon(
+                isLiked ? Icons.favorite : Icons.favorite_border_rounded,
               ),
             ),
           ),

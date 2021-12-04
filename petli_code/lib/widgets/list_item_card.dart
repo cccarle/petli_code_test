@@ -71,9 +71,17 @@ class ListItemCard extends StatelessWidget {
           ),
         );
 
-    renderLikeIcon() => Padding(
-          padding: const EdgeInsets.only(left: 10, top: 10),
-          child: Icon(Icons.favorite),
+    renderLikeIcon() => GestureDetector(
+          onTap: () => photo.toggelLike(),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 10, top: 10),
+            child: ValueListenableBuilder(
+              valueListenable: photo.isLiked,
+              builder: (context, bool isFavorited, child) => Icon(
+                isFavorited ? Icons.favorite : Icons.favorite_border_rounded,
+              ),
+            ),
+          ),
         );
 
     return Card(

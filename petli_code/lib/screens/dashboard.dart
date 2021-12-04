@@ -1,7 +1,9 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:petli_code/consts/constants.dart';
 import 'package:petli_code/models/photo.dart';
 import 'package:petli_code/services/api.dart';
+import 'package:petli_code/services/shared_prefs.dart';
 import 'package:petli_code/widgets/list_item_card.dart';
 import 'package:petli_code/widgets/on_error.dart';
 
@@ -19,7 +21,9 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   void initState() {
+    getStoredLikes();
     fetchPhotos();
+
     super.initState();
   }
 
@@ -28,8 +32,12 @@ class _DashboardState extends State<Dashboard> {
 
     if (res['succes']) {
       setState(() {
-        photoList =
-            res['body'].map<Photo>((photo) => Photo.fromJson(photo)).toList();
+        photoList = res['body']
+            .map<Photo>(
+              (photo) => Photo.fromJson(photo),
+            )
+            .toList();
+
         hasLoadedData = true;
       });
     }
@@ -40,6 +48,22 @@ class _DashboardState extends State<Dashboard> {
         hasLoadedData = true;
       });
     }
+  }
+
+/* 
+Fetch all stored photo IDs that has been liked.
+Used in Photo-model to decided if a photo has been liked or not.
+
+Preferable this is handled by backend.
+ */
+
+  getStoredLikes() async {
+    dynamic cachedLikeIds =
+        await SharedPrefs().getStringValue(SharedPrefs.CACHED_LIKE_IDS) ?? "[]";
+
+    dynamic listOfLikedPhotoIds = json.decode(cachedLikeIds);
+
+    Constants.likedPhotos = listOfLikedPhotoIds;
   }
 
   @override
